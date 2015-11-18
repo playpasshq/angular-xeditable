@@ -216,8 +216,7 @@ module.exports = function(grunt) {
     'concat',
     'uglify',
     'copy',
-    'compress',
-    'docs'
+    'compress'
   ]);
 
   grunt.registerTask('docs', [
