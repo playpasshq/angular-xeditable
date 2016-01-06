@@ -28,11 +28,11 @@ function($parse, $compile, editableThemes, $rootScope, $document, editableContro
         // form controller
         var eFormCtrl;
 
-        // this variable indicates is element is bound to some existing form, 
+        // this variable indicates is element is bound to some existing form,
         // or it's single element who's form will be generated automatically
         // By default consider single element without any linked form.ß
         var hasForm = false;
-     
+
         // element wrapped by form
         if(ctrl[1]) {
           eFormCtrl = ctrl[1];
@@ -78,14 +78,14 @@ function($parse, $compile, editableThemes, $rootScope, $document, editableContro
         angular.extend(eCtrl, overwrites);
 
         // x-editable can be disabled using editableOption or edit-disabled attribute
-        var disabled = angular.isDefined(attrs.editDisabled) ?
+        var is_disabled = function() {
+          var disabled = angular.isDefined(attrs.editDisabled) ?
           scope.$eval(attrs.editDisabled) :
           editableOptions.isDisabled;
 
-        if (disabled) {
-          return;
-        }
-        
+          return disabled;
+        };
+
         // init editable ctrl
         eCtrl.init(!hasForm);
 
@@ -128,9 +128,11 @@ function($parse, $compile, editableThemes, $rootScope, $document, editableContro
             elem.bind(editableOptions.activationEvent, function(e) {
               e.preventDefault();
               e.editable = eCtrl;
-              scope.$apply(function(){
-                scope.$form.$show();
-              });
+              if(!is_disabled()) {
+                scope.$apply(function(){
+                  scope.$form.$show();
+                });
+              }
             });
           }
         }
